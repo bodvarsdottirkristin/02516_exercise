@@ -61,12 +61,6 @@ class BCELoss_TotalVariation(nn.Module):
 
     def forward(self, y_pred, y_true):
         loss = torch.mean(y_pred - y_true*y_pred + torch.log(1 + torch.exp(-y_pred)))
-        p = torch.sigmoid(y_pred)                    # [B, C, H, W] or [B, 1, H, W]
-
-        # anisotropic TV: sum of absolute finite differences
-        dx = p[..., 1:, :] - p[..., :-1, :]
-        dy = p[..., :, 1:] - p[..., :, :-1]
-
-        regularization = dx.abs().mean() + dy.abs().mean()
+        regularization = ...
         return loss + 0.1*regularization
 
