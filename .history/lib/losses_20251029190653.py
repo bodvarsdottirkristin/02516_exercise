@@ -11,12 +11,16 @@ class BCELoss(nn.Module):
         return loss
 
 class DiceLoss(nn.Module):
-    def __init__(self, smooth: float = 1.0, from_logits: bool = True):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, y_pred, y_true):
+        def __init__(self, smooth: float = 1.0, from_logits: bool = True):
         super().__init__()
         self.smooth = smooth
         self.from_logits = from_logits
 
-    def forward(self, y_pred, y_true):
+    def forward(self, y_pred: torch.Tensor, y_true: torch.Tensor) -> torch.Tensor:
         if self.from_logits:
             y_pred = torch.sigmoid(y_pred)
         y_true = y_true.float()

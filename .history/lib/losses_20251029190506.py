@@ -11,27 +11,11 @@ class BCELoss(nn.Module):
         return loss
 
 class DiceLoss(nn.Module):
-    def __init__(self, smooth: float = 1.0, from_logits: bool = True):
+    def __init__(self):
         super().__init__()
-        self.smooth = smooth
-        self.from_logits = from_logits
 
     def forward(self, y_pred, y_true):
-        if self.from_logits:
-            y_pred = torch.sigmoid(y_pred)
-        y_true = y_true.float()
-
-        # Flatten per-sample
-        y_pred = y_pred.view(y_pred.size(0), -1)
-        y_true = y_true.view(y_true.size(0), -1)
-
-        # Dice = (2 * sum(p*t) + smooth) / (sum(p)+sum(t) + smooth)
-        intersection = (y_pred * y_true).sum(dim=1)
-        union = y_pred.sum(dim=1) + y_true.sum(dim=1)
-        dice = (2.0 * intersection + self.smooth) / (union + self.smooth)
-
-        # Loss = 1 - dice, averaged over batch
-        return 1.0 - dice.mean()
+        raise Exception("Implement this!")
 
 class FocalLoss(nn.Module):
     def __init__(self):
