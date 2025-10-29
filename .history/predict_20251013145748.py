@@ -4,8 +4,6 @@
 # Iterate over the test set images, generate predictions, save segmentation masks
 
 from PIL import Image
-import numpy as np
-
 def save_mask(array, path):
     # array should be a 2D numpy array with 0s and 1s
     # np.unique(array) == [0, 1]

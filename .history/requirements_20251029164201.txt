@@ -9,8 +9,3 @@ scikit-image
 scikit-learn
 opencv-python
 tensorboard
-
-torch
-torchvision
-torchaudio
-torchsummary

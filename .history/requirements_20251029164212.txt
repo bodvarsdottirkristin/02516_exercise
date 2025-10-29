@@ -13,4 +13,4 @@ tensorboard
 torch
 torchvision
 torchaudio
-torchsummary
+EOF
