@@ -1,7 +1,6 @@
 import torch
 from torch import nn
 import PIL.Image as Image
-import torch.nn.functional as F
 
 class BCELoss(nn.Module):
     def __init__(self):
