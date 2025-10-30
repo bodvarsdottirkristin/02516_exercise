@@ -8,8 +8,7 @@ class BCELoss(nn.Module):
         super().__init__()
 
     def forward(self, y_pred, y_true):
-        loss = torch.mean(y_pred - y_true*y_pred + torch.log(1 + torch.exp(-y_pred)))
-        return loss
+        return F.binary_cross_entropy_with_logits(y_pred, y_true.float())
 
 class DiceLoss(nn.Module):
     def __init__(self, smooth: float = 1.0, from_logits: bool = True):
@@ -60,13 +59,12 @@ class BCELoss_TotalVariation(nn.Module):
         super().__init__()
 
     def forward(self, y_pred, y_true):
-        loss = torch.mean(y_pred - y_true*y_pred + torch.log(1 + torch.exp(-y_pred)))
-        p = torch.sigmoid(y_pred)                    # [B, C, H, W] or [B, 1, H, W]
+        bce = F.binary_cross_entropy_with_logits(y_pred, y_true.float())
 
-        # anisotropic TV: sum of absolute finite differences
+        # TV regularizer on probabilities
+        p = torch.sigmoid(y_pred)
         dx = p[..., 1:, :] - p[..., :-1, :]
         dy = p[..., :, 1:] - p[..., :, :-1]
-
-        regularization = dx.abs().mean() + dy.abs().mean()
-        return loss + 0.1*regularization
+        tv = dx.abs().mean() + dy.abs().mean()
+        return bce + 0.1 * tv
 
